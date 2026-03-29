@@ -141,17 +141,40 @@ export class ReaderEventHub {
     return this.currentItem;
   }
 
-  public async getItemMetadata(): Promise<{ title: string; abstract: string; itemType: string } | null> {
+  public async getItemMetadata(): Promise<{
+    title: string;
+    abstract: string;
+    itemType: string;
+    tags: string[];
+    authors: string[];
+  } | null> {
     if (!this.currentItem) return null;
 
     try {
+      const item = this.currentItem;
+      const tags = item.getTags?.()?.map((t: any) => typeof t === "string" ? t : t.tag) || [];
+
+      let authors: string[] = [];
+      const creator = item.getCreator?.();
+      if (creator) {
+        if (Array.isArray(creator)) {
+          authors = creator
+            .map((c: any) => c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || "")
+            .filter(Boolean);
+        } else if (creator.firstName && creator.lastName) {
+          authors = [`${creator.firstName} ${creator.lastName}`];
+        }
+      }
+
       return {
-        title: this.currentItem.getField("title") as string,
-        abstract: (this.currentItem.getField("abstractNote") as string) || "",
-        itemType: this.currentItem.itemType,
+        title: item.getField("title") as string || "",
+        abstract: (item.getField("abstractNote") as string) || "",
+        itemType: item.itemType || "",
+        tags,
+        authors,
       };
     } catch (error) {
-      Zotero.debug("[ZoteroAIReader] Error getting item metadata");
+      Zotero.debug("[ZoteroAIReader] Error getting item metadata: " + String(error));
       return null;
     }
   }
