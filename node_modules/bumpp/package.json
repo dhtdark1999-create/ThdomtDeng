@@ -1,0 +1,92 @@
+{
+  "name": "bumpp",
+  "type": "module",
+  "version": "11.0.1",
+  "description": "Bump version, commit changes, tag, and push to Git",
+  "authors": [
+    {
+      "name": "Anthony Fu",
+      "url": "https://antfu.me"
+    },
+    {
+      "name": "James Messinger",
+      "url": "https://jamesmessinger.com"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/antfu-collective/bumpp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antfu-collective/bumpp.git"
+  },
+  "keywords": [
+    "version",
+    "bump",
+    "npm",
+    "node",
+    "bower",
+    "package",
+    "git",
+    "tag",
+    "push",
+    "prompt"
+  ],
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./cli": "./dist/cli.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "dist/index.d.mts",
+  "bin": {
+    "bumpp": "bin/bumpp.mjs"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "args-tokenizer": "^0.3.0",
+    "cac": "^7.0.0",
+    "jsonc-parser": "^3.3.1",
+    "package-manager-detector": "^1.6.0",
+    "semver": "^7.7.4",
+    "tinyexec": "^1.0.4",
+    "tinyglobby": "^0.2.15",
+    "unconfig": "^7.5.0",
+    "yaml": "^2.8.2"
+  },
+  "inlinedDependencies": {
+    "kleur": "3.0.3",
+    "prompts": "2.4.2",
+    "sisteransi": "1.0.5",
+    "tiny-conventional-commits-parser": "0.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.7.2",
+    "@types/node": "^25.5.0",
+    "@types/prompts": "^2.4.9",
+    "@types/semver": "^7.7.1",
+    "@typescript/native-preview": "7.0.0-dev.20260314.1",
+    "baseline-browser-mapping": "^2.10.8",
+    "eslint": "^10.0.3",
+    "premove": "^4.0.0",
+    "prompts": "^2.4.2",
+    "tiny-conventional-commits-parser": "^0.1.0",
+    "tsdown": "^0.21.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsdown",
+    "start": "tsx src/cli/run.ts",
+    "test": "vitest",
+    "bumpp": "tsx src/cli/run.ts",
+    "release": "pnpm run bumpp",
+    "typecheck": "tsgo --noEmit"
+  }
+}

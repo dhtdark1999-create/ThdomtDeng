@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Zotero AI Reader",
+  "version": "1.0.0",
+  "description": "AI-powered reading assistant for Zotero with translation, explanation, and context-aware dialogue",
+  "homepage_url": "https://github.com/user/zotero-ai-reader#readme",
+  "author": "Developer",
+  "icons": {
+    "48": "content/icons/favicon@0.5x.png",
+    "96": "content/icons/favicon.png"
+  },
+  "applications": {
+    "zotero": {
+      "id": "zotero-ai-reader@claude.ai",
+      "strict_min_version": "6.999",
+      "strict_max_version": "8.*"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+zoteroAIR-startup-begin = Addon is loading
+zoteroAIR-startup-finish = Zotero AI Reader is ready
+zoteroAIR-menuitem-label = Zotero AI Reader: Help
+zoteroAIR-menupopup-label = Zotero AI Reader: Menu
+zoteroAIR-menuitem-submenulabel = Zotero AI Reader
+zoteroAIR-menuitem-filemenulabel = Zotero AI Reader: File Menuitem
+zoteroAIR-prefs-title = Zotero AI Reader
+zoteroAIR-prefs-table-title = Title
+zoteroAIR-prefs-table-detail = Detail
+zoteroAIR-tabpanel-lib-tab-label = Library Tab
+zoteroAIR-tabpanel-reader-tab-label = Reader Tab

@@ -1,0 +1,13 @@
+zoteroAIR-pref-title = Zotero AI 阅读助手设置
+zoteroAIR-pref-api-config = API 配置
+zoteroAIR-pref-endpoint = 端点地址
+zoteroAIR-pref-apiKey = API 密钥
+zoteroAIR-pref-model = 模型
+zoteroAIR-pref-system-prompt-label = 系统提示词
+zoteroAIR-pref-system-prompt-placeholder = 输入自定义系统提示词...
+zoteroAIR-pref-mode-config = 显示设置
+zoteroAIR-pref-auto-mode =
+    .label = 自动模式（自动处理选中文本）
+zoteroAIR-pref-sidebar-left =
+    .label = 在左侧显示侧边栏
+zoteroAIR-pref-help = { $name } 构建版本 { $version } { $time }

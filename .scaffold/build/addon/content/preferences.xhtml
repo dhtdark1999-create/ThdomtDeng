@@ -1,0 +1,71 @@
+<linkset>
+  <html:link rel="localization" href="zoteroAIR-preferences.ftl" />
+</linkset>
+<groupbox onload="Zotero.ZoteroAIR.hooks.onPrefsEvent('load', { window });">
+  <label><html:h2 data-l10n-id="zoteroAIR-pref-title"></html:h2></label>
+
+  <!-- API Configuration -->
+  <html:h3 data-l10n-id="zoteroAIR-pref-api-config"></html:h3>
+
+  <hbox>
+    <html:label for="zotero-prefpane-zoteroAIR-endpoint" data-l10n-id="zoteroAIR-pref-endpoint"></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-zoteroAIR-endpoint"
+      preference="extensions.zotero.zoteroAIR.endpoint"
+      placeholder="https://api.openai.com/v1/chat/completions"
+      style="width: 300px;"
+    />
+  </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-zoteroAIR-apiKey" data-l10n-id="zoteroAIR-pref-apiKey"></html:label>
+    <html:input
+      type="password"
+      id="zotero-prefpane-zoteroAIR-apiKey"
+      preference="extensions.zotero.zoteroAIR.apiKey"
+      style="width: 300px;"
+    />
+  </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-zoteroAIR-model" data-l10n-id="zoteroAIR-pref-model"></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-zoteroAIR-model"
+      preference="extensions.zotero.zoteroAIR.model"
+      placeholder="gpt-4"
+      style="width: 150px;"
+    />
+  </hbox>
+
+  <html:label data-l10n-id="zoteroAIR-pref-system-prompt-label"></html:label>
+  <html:textarea
+    id="zotero-prefpane-zoteroAIR-systemPrompt"
+    preference="extensions.zotero.zoteroAIR.systemPrompt"
+    rows="4"
+    style="width: 100%; resize: vertical;"
+    data-l10n-id="zoteroAIR-pref-system-prompt-placeholder"
+  ></html:textarea>
+
+  <!-- Mode Selection -->
+  <html:h3 data-l10n-id="zoteroAIR-pref-mode-config"></html:h3>
+
+  <checkbox
+    id="zotero-prefpane-zoteroAIR-autoMode"
+    preference="extensions.zotero.zoteroAIR.autoMode"
+    data-l10n-id="zoteroAIR-pref-auto-mode"
+  />
+
+  <checkbox
+    id="zotero-prefpane-zoteroAIR-sidebarOnLeft"
+    preference="extensions.zotero.zoteroAIR.sidebarOnLeft"
+    data-l10n-id="zoteroAIR-pref-sidebar-left"
+  />
+</groupbox>
+<vbox>
+  <html:label
+    data-l10n-id="zoteroAIR-pref-help"
+    data-l10n-args='{"time": "2026-04-16 21:30:30","name": "Zotero AI Reader","version":"1.0.0"}'
+  ></html:label>
+</vbox>

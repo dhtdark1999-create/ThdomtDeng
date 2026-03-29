@@ -1,0 +1,19 @@
+{
+  "addons": {
+    "zotero-ai-reader@claude.ai": {
+      "updates": [
+        {
+          "version": "1.0.0",
+          "update_link": "https://github.com/user/zotero-ai-reader/releases/download/v1.0.0/zotero-ai-reader.xpi",
+          "update_hash": "sha512:117d9c93a4f50db819063260fd678a34c9b546c487a9e7b1c1e0557c76fd3bb3e63b82e0b5ef94d23d3ec5eb3609de5b2695dc227efa708c8f9953c021703bc8",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.999",
+              "strict_max_version": "8.*"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
