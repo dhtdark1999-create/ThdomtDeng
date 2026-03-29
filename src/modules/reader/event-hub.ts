@@ -161,15 +161,15 @@ export class ReaderEventHub {
           authors = creator
             .map((c: any) => c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || "")
             .filter(Boolean);
-        } else if (creator.firstName && creator.lastName) {
-          authors = [`${creator.firstName} ${creator.lastName}`];
+        } else if (creator.lastName) {
+          authors = [creator.firstName ? `${creator.firstName} ${creator.lastName}` : creator.lastName];
         }
       }
 
       return {
         title: item.getField("title") as string || "",
         abstract: (item.getField("abstractNote") as string) || "",
-        itemType: item.itemType || "",
+        itemType: item.getField("itemType") as string || "",
         tags,
         authors,
       };
