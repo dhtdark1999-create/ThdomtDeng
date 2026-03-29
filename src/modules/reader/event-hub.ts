@@ -58,15 +58,16 @@ export class ReaderEventHub {
 
   private async onReaderOpen(readerInfo: any): Promise<void> {
     Zotero.debug("[ZoteroAIReader] Reader opened");
-    // Get the current reader and its item
     try {
       const reader = await this.getCurrentReader();
       if (reader) {
         this.currentItem = await this.getItemForReader(reader);
-        Zotero.debug("[ZoteroAIReader] Current item set");
+        // Register selection listener for this reader
+        this.registerSelectionListener(reader);
+        Zotero.debug("[ZoteroAIReader] Current item set and selection listener registered");
       }
     } catch (error) {
-      Zotero.debug("[ZoteroAIReader] Error getting reader");
+      Zotero.debug("[ZoteroAIReader] Error getting reader: " + String(error));
     }
   }
 
