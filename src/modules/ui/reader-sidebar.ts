@@ -7,6 +7,12 @@ import { SidebarView } from "./sidebar-view";
 
 const PANE_ID = "ai-reader-sidebar";
 
+// Icons use explicit colors with light/dark variants, like other working
+// plugins, instead of relying on context-fill inheritance.
+function icon(name: string): string {
+  return `chrome://${addon.data.config.addonRef}/content/icons/${name}.svg`;
+}
+
 /** Run a section hook, logging failures to the Error Console instead of swallowing them. */
 function guard(hook: string, fn: () => void): void {
   try {
@@ -28,11 +34,13 @@ export class ReaderSidebarFactory {
       pluginID: addon.data.config.addonID,
       header: {
         l10nID: getLocaleID("reader-sidebar-header"),
-        icon: `chrome://${addon.data.config.addonRef}/content/icons/sidenav-16.svg`,
+        icon: icon("sidenav-16"),
+        darkIcon: icon("sidenav-16-dark"),
       },
       sidenav: {
         l10nID: getLocaleID("reader-sidebar-sidenav-tooltip"),
-        icon: `chrome://${addon.data.config.addonRef}/content/icons/sidenav-20.svg`,
+        icon: icon("sidenav-20"),
+        darkIcon: icon("sidenav-20-dark"),
       },
       // Zotero only calls onRender when it thinks the section is stale, and
       // re-creates the body when the pane is re-attached. Bind the item in
