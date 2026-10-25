@@ -156,15 +156,11 @@ export class ReaderEventHub {
       const tags = item.getTags?.()?.map((t: any) => typeof t === "string" ? t : t.tag) || [];
 
       let authors: string[] = [];
-      const creator = item.getCreator?.();
-      if (creator) {
-        if (Array.isArray(creator)) {
-          authors = creator
-            .map((c: any) => c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || "")
-            .filter(Boolean);
-        } else if (creator.lastName) {
-          authors = [creator.firstName ? `${creator.firstName} ${creator.lastName}` : creator.lastName];
-        }
+      const creators = item.getCreators?.();
+      if (Array.isArray(creators)) {
+        authors = creators
+          .map((c: any) => c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || "")
+          .filter(Boolean);
       }
 
       return {

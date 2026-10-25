@@ -1,0 +1,13 @@
+pref-title = Zotero AI Reader Settings
+pref-api-config = API Configuration
+pref-endpoint = Endpoint
+pref-apiKey = API Key
+pref-model = Model
+pref-system-prompt-label = System Prompt
+pref-system-prompt-placeholder = Enter a custom system prompt for the AI assistant...
+pref-mode-config = Display Settings
+pref-auto-mode =
+    .label = Auto-mode (automatically process selections)
+pref-sidebar-left =
+    .label = Show sidebar on left side
+pref-help = { $name } Build { $version } { $time }

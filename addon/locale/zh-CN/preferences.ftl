@@ -1,0 +1,13 @@
+pref-title = Zotero AI 阅读助手设置
+pref-api-config = API 配置
+pref-endpoint = 端点地址
+pref-apiKey = API 密钥
+pref-model = 模型
+pref-system-prompt-label = 系统提示词
+pref-system-prompt-placeholder = 输入自定义系统提示词...
+pref-mode-config = 显示设置
+pref-auto-mode =
+    .label = 自动模式（自动处理选中文本）
+pref-sidebar-left =
+    .label = 在左侧显示侧边栏
+pref-help = { $name } 构建版本 { $version } { $time }

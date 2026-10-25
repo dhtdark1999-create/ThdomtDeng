@@ -1,0 +1,11 @@
+startup-begin = 插件加载中
+startup-finish = Zotero AI 阅读助手已就绪
+menuitem-label = Zotero AI 阅读助手：帮助
+menupopup-label = Zotero AI 阅读助手：菜单
+menuitem-submenulabel = Zotero AI 阅读助手
+menuitem-filemenulabel = Zotero AI 阅读助手：文件菜单
+prefs-title = Zotero AI 阅读助手
+prefs-table-title = 标题
+prefs-table-detail = 详情
+tabpanel-lib-tab-label = 库标签
+tabpanel-reader-tab-label = 阅读器标签

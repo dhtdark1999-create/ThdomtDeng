@@ -1,0 +1,71 @@
+<linkset>
+  <html:link rel="localization" href="__addonRef__-preferences.ftl" />
+</linkset>
+<groupbox onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window });">
+  <label><html:h2 data-l10n-id="pref-title"></html:h2></label>
+
+  <!-- API Configuration -->
+  <html:h3 data-l10n-id="pref-api-config"></html:h3>
+
+  <hbox>
+    <html:label for="zotero-prefpane-__addonRef__-endpoint" data-l10n-id="pref-endpoint"></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-__addonRef__-endpoint"
+      preference="endpoint"
+      placeholder="https://api.openai.com/v1/chat/completions"
+      style="width: 300px;"
+    />
+  </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-__addonRef__-apiKey" data-l10n-id="pref-apiKey"></html:label>
+    <html:input
+      type="password"
+      id="zotero-prefpane-__addonRef__-apiKey"
+      preference="apiKey"
+      style="width: 300px;"
+    />
+  </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-__addonRef__-model" data-l10n-id="pref-model"></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-__addonRef__-model"
+      preference="model"
+      placeholder="gpt-4"
+      style="width: 150px;"
+    />
+  </hbox>
+
+  <html:label data-l10n-id="pref-system-prompt-label"></html:label>
+  <html:textarea
+    id="zotero-prefpane-__addonRef__-systemPrompt"
+    preference="systemPrompt"
+    rows="4"
+    style="width: 100%; resize: vertical;"
+    data-l10n-id="pref-system-prompt-placeholder"
+  ></html:textarea>
+
+  <!-- Mode Selection -->
+  <html:h3 data-l10n-id="pref-mode-config"></html:h3>
+
+  <checkbox
+    id="zotero-prefpane-__addonRef__-autoMode"
+    preference="autoMode"
+    data-l10n-id="pref-auto-mode"
+  />
+
+  <checkbox
+    id="zotero-prefpane-__addonRef__-sidebarOnLeft"
+    preference="sidebarOnLeft"
+    data-l10n-id="pref-sidebar-left"
+  />
+</groupbox>
+<vbox>
+  <html:label
+    data-l10n-id="pref-help"
+    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
+  ></html:label>
+</vbox>

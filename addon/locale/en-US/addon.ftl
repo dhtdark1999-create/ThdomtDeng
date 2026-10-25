@@ -1,0 +1,11 @@
+startup-begin = Addon is loading
+startup-finish = Zotero AI Reader is ready
+menuitem-label = Zotero AI Reader: Help
+menupopup-label = Zotero AI Reader: Menu
+menuitem-submenulabel = Zotero AI Reader
+menuitem-filemenulabel = Zotero AI Reader: File Menuitem
+prefs-title = Zotero AI Reader
+prefs-table-title = Title
+prefs-table-detail = Detail
+tabpanel-lib-tab-label = Library Tab
+tabpanel-reader-tab-label = Reader Tab
