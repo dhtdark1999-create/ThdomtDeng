@@ -29,7 +29,7 @@ const literalKeys = [...src.matchAll(/getString\(\s*"([\w-]+)"/g)].map((m) => m[
 const dynamicKeys = [
   ...["translate", "explain", "summarize"].map((a) => `action-${a}`),
   ...["translate", "explain"].map((a) => `popup-${a}`),
-  ...["config", "auth", "rateLimit", "network", "timeout", "server", "badRequest", "aborted", "unknown"].map(
+  ...["config", "auth", "rateLimit", "network", "timeout", "server", "badRequest", "notFound", "aborted", "unknown"].map(
     (k) => `error-${k}`,
   ),
 ];

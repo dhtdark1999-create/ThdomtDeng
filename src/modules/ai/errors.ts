@@ -6,6 +6,7 @@ export type AIErrorKind =
   | "timeout"
   | "server"
   | "badRequest"
+  | "notFound"
   | "aborted"
   | "unknown";
 
@@ -27,6 +28,7 @@ export function kindFromStatus(status: number): AIErrorKind {
   if (status === 429) return "rateLimit";
   if (status === 408 || status === 504) return "timeout";
   if (status >= 500) return "server";
+  if (status === 404) return "notFound";
   if (status >= 400) return "badRequest";
   return "unknown";
 }

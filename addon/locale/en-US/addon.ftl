@@ -32,6 +32,7 @@ error-network = Network error. Check your connection and endpoint URL.
 error-timeout = The request timed out.
 error-server = The AI service returned a server error.
 error-badRequest = The request was rejected. Check the model name and endpoint.
+error-notFound = Endpoint not found (404). Check the endpoint URL.
 error-aborted = Stopped.
 error-unknown = Something went wrong.
 reader-sidebar-status-ready = Ready

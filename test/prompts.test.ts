@@ -93,6 +93,8 @@ describe("normalizeEndpoint", () => {
     expect(normalizeEndpoint("https://open.bigmodel.cn/api/paas/v4")).toBe(
       "https://open.bigmodel.cn/api/paas/v4/chat/completions",
     );
+    expect(normalizeEndpoint("https://api.deepseek.com")).toBe("https://api.deepseek.com/chat/completions");
+    expect(normalizeEndpoint("https://api.deepseek.com/")).toBe("https://api.deepseek.com/chat/completions");
     expect(normalizeEndpoint("http://localhost:11434/custom")).toBe("http://localhost:11434/custom");
     expect(normalizeEndpoint("  ")).toBe("");
   });
@@ -104,6 +106,7 @@ describe("kindFromStatus", () => {
     expect(kindFromStatus(401)).toBe("auth");
     expect(kindFromStatus(429)).toBe("rateLimit");
     expect(kindFromStatus(400)).toBe("badRequest");
+    expect(kindFromStatus(404)).toBe("notFound");
     expect(kindFromStatus(503)).toBe("server");
     expect(kindFromStatus(504)).toBe("timeout");
   });

@@ -29,6 +29,9 @@ export function normalizeEndpoint(endpoint: string): string {
   if (!url) return "";
   if (/\/chat\/completions$/.test(url)) return url;
   if (/\/v\d+[a-z]*$/.test(url)) return `${url}/chat/completions`;
+  // Bare host such as https://api.deepseek.com: OpenAI-compatible services
+  // serve chat completions at /chat/completions under the root
+  if (/^https?:\/\/[^/]+$/i.test(url)) return `${url}/chat/completions`;
   return url;
 }
 

@@ -32,6 +32,7 @@ error-network = 网络错误，请检查网络连接和端点地址。
 error-timeout = 请求超时。
 error-server = AI 服务返回了服务器错误。
 error-badRequest = 请求被拒绝，请检查模型名称和端点。
+error-notFound = 端点地址不存在（404），请检查端点 URL。
 error-aborted = 已停止。
 error-unknown = 出现未知错误。
 reader-sidebar-status-ready = 就绪
