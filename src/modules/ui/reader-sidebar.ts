@@ -17,13 +17,14 @@ export class ReaderSidebarFactory {
       pluginID: addon.data.config.addonID,
       header: {
         l10nID: getLocaleID("reader-sidebar-header"),
-        icon: "chrome://zotero/skin/16/universal/quickSearch.svg",
+        icon: `chrome://${addon.data.config.addonRef}/content/icons/sidenav-16.svg`,
       },
       sidenav: {
         l10nID: getLocaleID("reader-sidebar-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/quickSearch.svg",
+        icon: `chrome://${addon.data.config.addonRef}/content/icons/sidenav-20.svg`,
       },
       onInit: ({ body }) => {
+        Zotero.debug("[ZoteroAIReader] Sidebar section init");
         this.views.set(body, new SidebarView(body, PANE_ID));
       },
       onDestroy: ({ body }) => {
@@ -42,6 +43,7 @@ export class ReaderSidebarFactory {
       },
     });
 
+    Zotero.debug("[ZoteroAIReader] registerSection returned " + String(this.sectionKey));
     ReaderEventHub.getInstance().popupDecorator = (doc, append, sel) =>
       this.decoratePopup(doc, append, sel);
   }
