@@ -63,17 +63,18 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
       Components.interfaces.nsISupports,
     ).wrappedJSObject;
   }
-  Zotero.__addonInstance__?.hooks.onShutdown();
-
-  Cc["@mozilla.org/intl/stringbundle;1"]
-    .getService(Components.interfaces.nsIStringBundleService)
-    .flushBundles();
-
-  Cu.unload(`${rootURI}/content/scripts/__addonRef__.js`);
-
-  if (chromeHandle) {
-    chromeHandle.destruct();
-    chromeHandle = null;
+  // Release the chrome:// registration even if the plugin's own shutdown
+  // fails; a leftover registration breaks chrome://__addonRef__/ URLs after
+  // the plugin is reinstalled or updated.
+  try {
+    Zotero.__addonInstance__?.hooks.onShutdown();
+  } finally {
+    // Cu.unload() was removed in Firefox 136; nothing else to unload, since
+    // the plugin script lives in a sandbox that is dropped with its globals.
+    if (chromeHandle) {
+      chromeHandle.destruct();
+      chromeHandle = null;
+    }
   }
 }
 

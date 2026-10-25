@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Zotero AI Reader E2E Harness",
+  "version": "1.0.0",
+  "description": "Test-only plugin that drives Zotero AI Reader and writes results to a file",
+  "applications": {
+    "zotero": {
+      "id": "zair-e2e@test.local",
+      "update_url": "https://example.com/zair-e2e-update.json",
+      "strict_min_version": "8.0",
+      "strict_max_version": "10.*"
+    }
+  }
+}

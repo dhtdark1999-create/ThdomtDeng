@@ -27,7 +27,8 @@
     "lint:fix": "prettier --write . && eslint . --fix",
     "release": "zotero-plugin release",
     "test": "vitest run",
-    "update-deps": "npm update --save"
+    "update-deps": "npm update --save",
+    "test:e2e": "zotero-plugin build && node scripts/e2e/run.mjs"
   },
   "dependencies": {
     "zotero-plugin-toolkit": "^4.1.2"
@@ -37,6 +38,7 @@
     "@types/node": "^22.13.10",
     "eslint": "^9.22.0",
     "happy-dom": "21.0.4",
+    "jszip": "3.10.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.1",
