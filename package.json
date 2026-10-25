@@ -12,13 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/user/zotero-ai-reader.git"
+    "url": "git+https://github.com/dhtdark1999-create/ThdomtDeng.git"
   },
   "author": "Developer",
   "bugs": {
-    "url": "https://github.com/user/zotero-ai-reader/issues"
+    "url": "https://github.com/dhtdark1999-create/ThdomtDeng/issues"
   },
-  "homepage": "https://github.com/user/zotero-ai-reader#readme",
+  "homepage": "https://github.com/dhtdark1999-create/ThdomtDeng#readme",
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "start": "zotero-plugin serve",
