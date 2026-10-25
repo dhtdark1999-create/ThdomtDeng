@@ -1,4 +1,5 @@
-import { Message } from "./client";
+import { estimateTokens } from "../../utils/token-counter";
+import type { ChatMessage } from "./prompts";
 
 export interface ContextBlock {
   content: string;
@@ -31,14 +32,13 @@ export class ContextManager {
     this.prune();
   }
 
-  public getMessages(): Message[] {
-    const messages: Message[] = [];
+  public getMessages(): ChatMessage[] {
+    const messages: ChatMessage[] = [];
 
     if (this.systemPrompt) {
       messages.push({
         role: "system",
         content: this.systemPrompt,
-        timestamp: 0,
       });
     }
 
@@ -46,7 +46,6 @@ export class ContextManager {
       messages.push({
         role: "user",
         content: block.content,
-        timestamp: block.timestamp,
       });
     }
 
@@ -75,8 +74,6 @@ export class ContextManager {
   }
 
   private estimateTokens(text: string): number {
-    // Rough estimation: ~4 characters per token for English, fewer for other languages
-    // This is a simplified version; for production, use a proper tokenizer
-    return Math.ceil(text.length / 4);
+    return estimateTokens(text);
   }
 }

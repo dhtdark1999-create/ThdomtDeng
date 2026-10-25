@@ -1,9 +1,23 @@
+import type { PaperContext } from "../ai/prompts";
+
+export interface Selection {
+  /** Regular (parent) item ID the selection belongs to */
+  itemID: number;
+  text: string;
+}
+
+type SelectionListener = (sel: Selection) => void;
+type PopupHandler = _ZoteroTypes.Reader.EventHandler<"renderTextSelectionPopup">;
+
 export class ReaderEventHub {
   private static instance: ReaderEventHub;
-  private selectedText: string = "";
-  private currentItem: Zotero.Item | null = null;
-  private _selectionCleanup: (() => void) | null = null;
-  private _lastSelectedText: string = "";
+  private selection: Selection | null = null;
+  private listeners = new Set<SelectionListener>();
+  private popupHandler: PopupHandler | null = null;
+  /** Called to decorate the reader's text selection popup with buttons */
+  public popupDecorator:
+    | ((doc: Document, append: (...n: Node[]) => void, sel: Selection) => void)
+    | null = null;
 
   private constructor() {}
 
@@ -16,157 +30,87 @@ export class ReaderEventHub {
 
   public registerEvents(): void {
     Zotero.debug("[ZoteroAIReader] Registering reader events");
-    this._cleanup(); // Clean up any existing listeners
+    this.unregisterEvents();
 
-    // Register for text selection popup events
-    this.registerTextSelectionPopup();
+    // Fired by Zotero's reader whenever the user selects text in a PDF/EPUB/snapshot.
+    // The text comes from the reader's internal text layer, which is reliable
+    // across the nested PDF.js iframe (unlike DOM selectionchange).
+    this.popupHandler = (event) => {
+      const { reader, doc, params, append } = event;
+      const text = (params.annotation?.text || "").trim();
+      const itemID = ReaderEventHub.regularItemIDForReader(reader);
+      if (!text || itemID === null) return;
 
-    // Register reader events
-    this.registerReaderEvents();
-  }
-
-  private registerTextSelectionPopup(): void {
-    // Listen for text selection in the reader
-    const handleTextSelection = (event: any) => {
-      Zotero.debug("[ZoteroAIReader] Text selection event");
+      const sel = { itemID, text };
+      this.setSelection(sel);
+      this.popupDecorator?.(doc, append as (...n: Node[]) => void, sel);
     };
-
-    // This would be implemented based on Zotero 8's reader API
-    // For now, we'll use the section's onRender to capture selection
-    Zotero.debug("[ZoteroAIReader] Text selection handler registered");
-  }
-
-  private registerReaderEvents(): void {
-    // Register for reader tab changes
-    Zotero.Notifier.registerObserver(
-      {
-        notify: async (
-          event: string,
-          type: string,
-          ids: Array<string | number>,
-          extraData: { [key: string]: any },
-        ) => {
-          if (event === "select" && type === "tab" && extraData[ids[0]]?.type === "reader") {
-            await this.onReaderOpen(extraData[ids[0]]);
-          }
-        },
-      },
-      ["tab"],
-      "zotero-ai-reader",
+    Zotero.Reader.registerEventListener(
+      "renderTextSelectionPopup",
+      this.popupHandler,
+      addon.data.config.addonID,
     );
   }
 
-  private async onReaderOpen(readerInfo: any): Promise<void> {
-    Zotero.debug("[ZoteroAIReader] Reader opened");
-    try {
-      const reader = await this.getCurrentReader();
-      if (reader) {
-        this.currentItem = await this.getItemForReader(reader);
-        // Register selection listener for this reader
-        this.registerSelectionListener(reader);
-        Zotero.debug("[ZoteroAIReader] Current item set and selection listener registered");
-      }
-    } catch (error) {
-      Zotero.debug("[ZoteroAIReader] Error getting reader: " + String(error));
+  public unregisterEvents(): void {
+    if (this.popupHandler) {
+      Zotero.Reader.unregisterEventListener("renderTextSelectionPopup", this.popupHandler);
+      this.popupHandler = null;
     }
+    this.listeners.clear();
+    this.selection = null;
   }
 
-  private async getCurrentReader(): Promise<any | null> {
-    const mainWindow = Zotero.getMainWindow();
-    if (!mainWindow) return null;
-
-    const reader = mainWindow.ZoteroReader?.getCurrentReader?.();
-    return reader || null;
+  public onSelection(fn: SelectionListener): () => void {
+    this.listeners.add(fn);
+    return () => this.listeners.delete(fn);
   }
 
-  private async getItemForReader(reader: any): Promise<Zotero.Item | null> {
-    try {
-      const itemID = await reader._itemID;
-      if (itemID) {
-        return await Zotero.Items.getAsync(itemID) as Zotero.Item;
-      }
-    } catch (error) {
-      Zotero.debug("[ZoteroAIReader] Error getting item for reader");
-    }
-    return null;
+  /** Latest selection for an item, or "" if the last selection was elsewhere. */
+  public getSelectedText(itemID: number): string {
+    return this.selection?.itemID === itemID ? this.selection.text : "";
   }
 
-  public getSelectedText(): string {
-    return this.selectedText;
-  }
-
-  public setSelectedText(text: string): void {
-    this.selectedText = text;
-    const preview = text.length > 50 ? text.substring(0, 50) + "..." : text;
+  public setSelection(sel: Selection): void {
+    this.selection = sel;
+    const preview = sel.text.length > 50 ? sel.text.substring(0, 50) + "..." : sel.text;
     Zotero.debug("[ZoteroAIReader] Selected text updated: " + preview);
-  }
-
-  public registerSelectionListener(reader: any): void {
-    // Cleanup existing listener first
-    this._cleanup();
-
-    const iframe = reader._iframe?.contentDocument;
-    if (!iframe) {
-      Zotero.debug("[ZoteroAIReader] iframe not ready for selection listener");
-      return;
-    }
-
-    const handler = () => {
-      const selection = reader._iframe?.contentWindow?.getSelection();
-      const text = selection?.toString()?.trim() || "";
-      if (text !== this._lastSelectedText) {
-        this._lastSelectedText = text;
-        this.setSelectedText(text);
-        Zotero.debug("[ZoteroAIReader] Selection changed: " + (text.length > 50 ? text.substring(0, 50) + "..." : text));
+    for (const fn of this.listeners) {
+      try {
+        fn(sel);
+      } catch (e) {
+        Zotero.debug("[ZoteroAIReader] Selection listener error: " + String(e));
       }
-    };
-
-    iframe.addEventListener("selectionchange", handler);
-
-    this._selectionCleanup = () => {
-      iframe.removeEventListener("selectionchange", handler);
-      Zotero.debug("[ZoteroAIReader] Selection listener cleaned up");
-    };
-
-    Zotero.debug("[ZoteroAIReader] Selection listener registered");
-  }
-
-  private _cleanup(): void {
-    if (this._selectionCleanup) {
-      this._selectionCleanup();
-      this._selectionCleanup = null;
     }
   }
 
-  public getCurrentItem(): Zotero.Item | null {
-    return this.currentItem;
+  /** Map a reader to the regular item that owns its attachment. */
+  public static regularItemIDForReader(reader: _ZoteroTypes.ReaderInstance): number | null {
+    const attachment = reader.itemID ? Zotero.Items.get(reader.itemID) : reader._item;
+    if (!attachment) return null;
+    return ReaderEventHub.regularItem(attachment).id;
   }
 
-  public async getItemMetadata(): Promise<{
-    title: string;
-    abstract: string;
-    itemType: string;
-    tags: string[];
-    authors: string[];
-  } | null> {
-    if (!this.currentItem) return null;
+  /** The item whose metadata describes the document (parent of an attachment). */
+  public static regularItem(item: Zotero.Item): Zotero.Item {
+    if (item.isAttachment?.() && item.parentItem) return item.parentItem;
+    return item;
+  }
 
+  public static getPaperContext(item: Zotero.Item | null): PaperContext | null {
+    if (!item) return null;
     try {
-      const item = this.currentItem;
-      const tags = item.getTags?.()?.map((t: any) => typeof t === "string" ? t : t.tag) || [];
-
-      let authors: string[] = [];
-      const creators = item.getCreators?.();
-      if (Array.isArray(creators)) {
-        authors = creators
-          .map((c: any) => c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || "")
-          .filter(Boolean);
-      }
-
+      const regular = ReaderEventHub.regularItem(item);
+      const tags = regular.getTags?.()?.map((t: any) => (typeof t === "string" ? t : t.tag)) || [];
+      const creators = regular.getCreators?.() || [];
+      const authors = creators
+        .map((c: any) => (c.firstName && c.lastName ? `${c.firstName} ${c.lastName}` : c.lastName || ""))
+        .filter(Boolean);
+      // getField returns "" for fields not valid for the item type
       return {
-        title: item.getField("title") as string || "",
-        abstract: (item.getField("abstractNote") as string) || "",
-        itemType: item.getField("itemType") as string || "",
+        title: (regular.getField("title") as string) || "",
+        abstract: (regular.getField("abstractNote") as string) || "",
+        itemType: regular.itemType || "",
         tags,
         authors,
       };

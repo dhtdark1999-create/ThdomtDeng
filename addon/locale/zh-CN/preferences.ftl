@@ -11,3 +11,6 @@ pref-auto-mode =
 pref-sidebar-left =
     .label = 在左侧显示侧边栏
 pref-help = { $name } 构建版本 { $version } { $time }
+pref-target-language = 回答语言
+pref-max-context-tokens = 上下文 Token 上限
+pref-endpoint-help = 支持任意 OpenAI 兼容服务。可填写以 /v1 结尾的基础地址，或完整的 /chat/completions 地址。API 密钥以明文保存在 Zotero 配置目录中。

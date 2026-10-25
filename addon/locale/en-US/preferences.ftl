@@ -11,3 +11,6 @@ pref-auto-mode =
 pref-sidebar-left =
     .label = Show sidebar on left side
 pref-help = { $name } Build { $version } { $time }
+pref-target-language = Answer language
+pref-max-context-tokens = Max context tokens
+pref-endpoint-help = Any OpenAI-compatible service works. Enter a base URL ending in /v1 or the full /chat/completions URL. The API key is stored unencrypted in the Zotero profile.

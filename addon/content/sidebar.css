@@ -1,0 +1,126 @@
+/* Zotero AI Reader sidebar. Uses Zotero theme variables so it follows light/dark mode. */
+.air-root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  color: var(--fill-primary, #222);
+}
+
+.air-meta { border-bottom: 1px solid var(--fill-quinary, #ddd); padding-bottom: 6px; }
+.air-title { font-weight: 600; line-height: 1.35; }
+.air-authors { font-size: 12px; color: var(--fill-secondary, #666); margin-top: 2px; }
+
+.air-quote {
+  margin: 0;
+  padding: 6px 10px;
+  border-inline-start: 3px solid var(--accent-blue, #4072e5);
+  background: var(--fill-quinary, #f3f4f6);
+  border-radius: 4px;
+  line-height: 1.45;
+  max-height: 8em;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.air-actions, .air-compose-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.air-compose-row { justify-content: flex-end; }
+
+.air-btn {
+  padding: 3px 10px;
+  border: 1px solid var(--fill-quarternary, #ccc);
+  border-radius: 5px;
+  background: var(--material-button, #fff);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.air-btn:hover:not(:disabled) { background: var(--fill-quinary, #eee); }
+.air-btn:focus-visible, .air-copy:focus-visible, .air-link:focus-visible, .air-input:focus-visible {
+  outline: 2px solid var(--color-focus-border, #4072e5);
+  outline-offset: 1px;
+}
+.air-btn:disabled { opacity: 0.5; cursor: default; }
+.air-primary { background: var(--accent-blue, #4072e5); border-color: transparent; color: #fff; }
+.air-primary:hover:not(:disabled) { background: var(--accent-blue, #4072e5); filter: brightness(1.1); }
+.air-ghost { border-color: transparent; background: transparent; margin-inline-end: auto; }
+
+.air-hint { font-size: 12px; color: var(--accent-orange, #b25e00); }
+.air-link { border: none; background: none; padding: 0; color: var(--accent-blue, #4072e5); text-decoration: underline; cursor: pointer; font: inherit; }
+
+.air-log {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-inline-end: 2px;
+}
+
+.air-placeholder { color: var(--fill-secondary, #888); font-style: italic; text-align: center; padding: 12px 0; }
+
+.air-msg {
+  position: relative;
+  padding: 6px 10px;
+  border-radius: 8px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+.air-user { align-self: flex-end; max-width: 90%; background: var(--fill-quinary, #eef2fb); }
+.air-assistant { background: var(--material-background, #fff); border: 1px solid var(--fill-quinary, #e5e5e5); }
+.air-error { border-color: var(--accent-red, #d93025); }
+.air-error-text { color: var(--accent-red, #d93025); font-weight: 500; }
+.air-error-detail { font-size: 11px; color: var(--fill-secondary, #777); margin: 2px 0 4px; }
+
+.air-tag {
+  display: inline-block;
+  margin-inline-end: 6px;
+  padding: 0 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  background: var(--accent-blue, #4072e5);
+  color: #fff;
+}
+
+.air-msg p, .air-msg ul, .air-msg ol, .air-msg pre, .air-msg blockquote, .air-msg h4, .air-msg h5 { margin: 0 0 6px; }
+.air-msg > :last-child { margin-bottom: 0; }
+.air-msg ul, .air-msg ol { padding-inline-start: 20px; }
+.air-msg code { font-family: var(--monospace-font, monospace); font-size: 12px; background: var(--fill-quinary, #f0f0f0); padding: 0 3px; border-radius: 3px; }
+.air-msg pre { overflow-x: auto; background: var(--fill-quinary, #f0f0f0); padding: 6px; border-radius: 4px; }
+.air-msg pre code { background: none; padding: 0; }
+.air-msg blockquote { border-inline-start: 2px solid var(--fill-quarternary, #ccc); padding-inline-start: 8px; color: var(--fill-secondary, #555); }
+
+.air-streaming::after { content: "▍"; animation: air-blink 1s steps(2) infinite; }
+@keyframes air-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .air-streaming::after { animation: none; } }
+.air-typing { color: var(--fill-secondary, #888); }
+
+.air-copy {
+  display: block;
+  margin-top: 4px;
+  margin-inline-start: auto;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--fill-secondary, #888);
+  cursor: pointer;
+}
+.air-copy:hover { color: var(--accent-blue, #4072e5); }
+
+.air-compose { display: flex; flex-direction: column; gap: 6px; }
+.air-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 2.8em;
+  padding: 5px 8px;
+  border: 1px solid var(--fill-quarternary, #ccc);
+  border-radius: 5px;
+  background: var(--material-background, #fff);
+  color: inherit;
+  font: inherit;
+}
+.air-root [hidden] { display: none !important; }

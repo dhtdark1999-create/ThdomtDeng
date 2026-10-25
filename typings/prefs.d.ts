@@ -12,6 +12,8 @@ declare namespace _ZoteroTypes {
       "endpoint": string;
       "apiKey": string;
       "model": string;
+      "targetLanguage": string;
+      "maxContextTokens": string;
       "systemPrompt": string;
       "autoMode": boolean;
       "sidebarOnLeft": boolean;

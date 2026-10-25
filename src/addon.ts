@@ -1,6 +1,8 @@
 import { config } from "../package.json";
 import { ColumnOptions, DialogHelper } from "zotero-plugin-toolkit";
 import { ReaderSidebarFactory } from "./modules/ui/reader-sidebar";
+import { AIClient } from "./modules/ai/client";
+import { SessionStore } from "./modules/ai/chat-session";
 import { ReaderEventHub } from "./modules/reader/event-hub";
 import { getString, initLocale } from "./utils/locale";
 import { createZToolkit } from "./utils/ztoolkit";
@@ -20,6 +22,7 @@ class Addon {
       rows: Array<{ [dataKey: string]: string }>;
     };
     dialog?: DialogHelper;
+    prefPaneID?: string;
   };
 
   public hooks: {
@@ -63,6 +66,15 @@ async function onStartup() {
 
   initLocale();
 
+  addon.data.prefPaneID = await Zotero.PreferencePanes.register({
+    pluginID: addon.data.config.addonID,
+    src: rootURI + "content/preferences.xhtml",
+    label: getString("prefs-title"),
+    image: `chrome://${addon.data.config.addonRef}/content/icons/favicon.png`,
+  });
+
+  SessionStore.init(new AIClient());
+
   // Register the reader sidebar panel
   ReaderSidebarFactory.registerReaderSidebar();
   Zotero.debug("[ZoteroAIReader] Reader sidebar registered");
@@ -104,6 +116,9 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 }
 
 function onShutdown(): void {
+  SessionStore.reset();
+  ReaderEventHub.getInstance().unregisterEvents();
+  ReaderSidebarFactory.unregisterReaderSidebar();
   ztoolkit.unregisterAll();
   addon.data.alive = false;
   // @ts-ignore - Plugin instance is not typed
@@ -122,10 +137,11 @@ async function onNotify(
 
 async function onPrefsEvent(type: string, data: { [key: string]: any }) {
   switch (type) {
-    case "load":
+    case "load": {
       const prefs = await import("./modules/preferenceScript");
       prefs.registerPrefsScripts(data.window);
       break;
+    }
     default:
       return;
   }

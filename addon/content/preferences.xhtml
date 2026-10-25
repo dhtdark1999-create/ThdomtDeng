@@ -13,7 +13,7 @@
       type="text"
       id="zotero-prefpane-__addonRef__-endpoint"
       preference="endpoint"
-      placeholder="https://api.openai.com/v1/chat/completions"
+      placeholder="https://api.openai.com/v1"
       style="width: 300px;"
     />
   </hbox>
@@ -34,10 +34,34 @@
       type="text"
       id="zotero-prefpane-__addonRef__-model"
       preference="model"
-      placeholder="gpt-4"
+      placeholder="gpt-4o-mini"
       style="width: 150px;"
     />
   </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-__addonRef__-targetLanguage" data-l10n-id="pref-target-language"></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-__addonRef__-targetLanguage"
+      preference="targetLanguage"
+      placeholder="简体中文"
+      style="width: 150px;"
+    />
+  </hbox>
+
+  <hbox>
+    <html:label for="zotero-prefpane-__addonRef__-maxContextTokens" data-l10n-id="pref-max-context-tokens"></html:label>
+    <html:input
+      type="number"
+      min="500"
+      step="500"
+      id="zotero-prefpane-__addonRef__-maxContextTokens"
+      preference="maxContextTokens"
+      style="width: 100px;"
+    />
+  </hbox>
+  <html:p data-l10n-id="pref-endpoint-help" style="font-size: 0.9em; opacity: 0.8;"></html:p>
 
   <html:label data-l10n-id="pref-system-prompt-label"></html:label>
   <html:textarea
