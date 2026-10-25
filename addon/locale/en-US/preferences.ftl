@@ -13,4 +13,6 @@ pref-sidebar-left =
 pref-help = { $name } Build { $version } { $time }
 pref-target-language = Answer language
 pref-max-context-tokens = Max context tokens
-pref-endpoint-help = Any OpenAI-compatible service works. Enter a base URL ending in /v1 or the full /chat/completions URL. The API key is stored unencrypted in the Zotero profile.
+pref-endpoint-preview = Requests will be sent to: { $url }
+pref-endpoint-preview-empty = Enter an endpoint to see the request URL.
+pref-endpoint-help = Any OpenAI-compatible service works. Enter the provider's base URL (e.g. https://api.deepseek.com, or one ending in /v1) or the full /chat/completions URL. The API key is stored unencrypted in the Zotero profile.
