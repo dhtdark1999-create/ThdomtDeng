@@ -40,7 +40,7 @@
     "happy-dom": "21.0.4",
     "jszip": "3.10.1",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.26.1",
     "vitest": "3.2.4",
     "zotero-plugin-scaffold": "^0.3.5",
