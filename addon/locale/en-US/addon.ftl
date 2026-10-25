@@ -34,3 +34,5 @@ error-server = The AI service returned a server error.
 error-badRequest = The request was rejected. Check the model name and endpoint.
 error-aborted = Stopped.
 error-unknown = Something went wrong.
+reader-sidebar-status-ready = Ready
+reader-sidebar-placeholder = Select text in the PDF to start chatting with AI

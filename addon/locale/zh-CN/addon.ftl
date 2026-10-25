@@ -34,3 +34,5 @@ error-server = AI 服务返回了服务器错误。
 error-badRequest = 请求被拒绝，请检查模型名称和端点。
 error-aborted = 已停止。
 error-unknown = 出现未知错误。
+reader-sidebar-status-ready = 就绪
+reader-sidebar-placeholder = 在 PDF 中选中文本以开始与 AI 对话

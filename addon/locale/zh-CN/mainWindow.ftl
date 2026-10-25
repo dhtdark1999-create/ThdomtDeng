@@ -15,5 +15,3 @@ reader-sidebar-header =
     .label = AI 阅读助手
 reader-sidebar-sidenav-tooltip =
     .tooltiptext = Zotero AI 阅读助手 - 与 AI 对话讨论 PDF 内容
-reader-sidebar-status-ready = 就绪
-reader-sidebar-placeholder = 在 PDF 中选中文本以开始与 AI 对话

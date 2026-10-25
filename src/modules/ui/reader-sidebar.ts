@@ -7,6 +7,17 @@ import { SidebarView } from "./sidebar-view";
 
 const PANE_ID = "ai-reader-sidebar";
 
+/** Run a section hook, logging failures to the Error Console instead of swallowing them. */
+function guard(hook: string, fn: () => void): void {
+  try {
+    fn();
+  } catch (e) {
+    Zotero.debug(`[ZoteroAIReader] Sidebar ${hook} failed: ${String(e)}
+${(e as Error)?.stack ?? ""}`);
+    Zotero.logError(e as Error);
+  }
+}
+
 export class ReaderSidebarFactory {
   private static views = new WeakMap<HTMLElement, SidebarView>();
   private static sectionKey: string | false = false;
@@ -23,29 +34,44 @@ export class ReaderSidebarFactory {
         l10nID: getLocaleID("reader-sidebar-sidenav-tooltip"),
         icon: `chrome://${addon.data.config.addonRef}/content/icons/sidenav-20.svg`,
       },
-      onInit: ({ body }) => {
-        Zotero.debug("[ZoteroAIReader] Sidebar section init");
-        this.views.set(body, new SidebarView(body, PANE_ID));
+      // Zotero only calls onRender when it thinks the section is stale, and
+      // re-creates the body when the pane is re-attached. Bind the item in
+      // every hook that receives one so the view never stays unbound.
+      onInit: ({ body, item }) => {
+        guard("init", () => this.viewFor(body, item));
       },
       onDestroy: ({ body }) => {
         this.views.get(body)?.destroy();
         this.views.delete(body);
       },
-      onItemChange: ({ setEnabled, tabType }) => {
+      onItemChange: ({ body, item, setEnabled, tabType }) => {
         setEnabled(tabType === "reader");
+        if (tabType === "reader") guard("itemChange", () => this.viewFor(body, item));
         return true;
       },
       onRender: ({ body, item, setSectionSummary }) => {
-        const view = this.views.get(body);
-        if (!view || !item) return;
-        view.bind(item);
-        setSectionSummary(view.summary());
+        guard("render", () => {
+          const view = this.viewFor(body, item);
+          setSectionSummary(view.summary());
+        });
       },
     });
 
     Zotero.debug("[ZoteroAIReader] registerSection returned " + String(this.sectionKey));
     ReaderEventHub.getInstance().popupDecorator = (doc, append, sel) =>
       this.decoratePopup(doc, append, sel);
+  }
+
+  /** Get (or lazily create) the view for a section body and bind the item. */
+  private static viewFor(body: HTMLDivElement, item: Zotero.Item | undefined): SidebarView {
+    let view = this.views.get(body);
+    if (!view) {
+      Zotero.debug("[ZoteroAIReader] Creating sidebar view");
+      view = new SidebarView(body, PANE_ID);
+      this.views.set(body, view);
+    }
+    if (item) view.bind(item);
+    return view;
   }
 
   public static unregisterReaderSidebar() {

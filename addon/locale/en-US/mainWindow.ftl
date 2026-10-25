@@ -15,5 +15,3 @@ reader-sidebar-header =
     .label = AI Reader
 reader-sidebar-sidenav-tooltip =
     .tooltiptext = Zotero AI Reader - Chat with AI about your PDF
-reader-sidebar-status-ready = Ready
-reader-sidebar-placeholder = Select text in the PDF to start chatting with AI
